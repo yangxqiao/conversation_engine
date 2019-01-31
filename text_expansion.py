@@ -4,23 +4,32 @@ tags = {
     "nickname": "smarty-pants",
 }
 
+
 def display(str):
-    s, e = find_curly_braces(str)
-    new_string = replace_in_braces(str, s, e)
-    print(new_string)
+    running = True
+    while(is_curly_braces_pair(str)):
+        s, e = find_curly_braces(str)
+        str = replace_in_braces(str, s, e)
+        if(str.find('{') == -1):
+            running = False
+            print(str)
 
-    s, e = find_curly_braces(new_string)
-    new_string = replace_in_braces(new_string, s, e)
-    print(new_string)
-
-    s, e = find_curly_braces(new_string)
-    new_string = replace_in_braces(new_string, s, e)
-    print(new_string)
+def is_curly_braces_pair(str):
+    start_idx = str.find("{")
+    end_idx = str.find("}")
+    if start_idx != -1 and end_idx != -1:
+        return True
+    else:
+        return False
 
 def find_curly_braces(str):
     start_idx = str.find("{")
     end_idx = str.find("}")
-    return start_idx, end_idx
+    if is_curly_braces_pair(str):
+        return start_idx, end_idx
+    else:
+        raise IOError
+
 
 def replace_in_braces(str, start_idx, end_idx):
     substring = str[start_idx+1:end_idx]
@@ -33,3 +42,4 @@ def replace_in_braces(str, start_idx, end_idx):
     return new_string
 
 display("{greeting} How are you?")
+
