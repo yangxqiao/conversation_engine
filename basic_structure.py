@@ -1,3 +1,14 @@
+import variation_and_pronunciation as vp
+
+my_dict = {
+    "name": "[Catherine # Kea se rin]",
+    "nickname": "Straight-A",
+    "age": "18",
+    "greeting": "How are you?",
+    "school": "the Extremely Excellent University",
+}
+
+
 class Node:
     def __init__(self, name, options, fn=None):
         self.name = name
@@ -18,12 +29,14 @@ class State:
 
 
 def print_hi(state):
-    print("Hi, what do you want to know about me?")
+    string = "Hi, {greeting} What do you want to know about me?"
+    print(vp.interpret_display(vp.expand(string, my_dict)))
     return state
 
 
 def introduce_name(state):
-    print("My name is Catherine.")
+    string = "My name is {name}."
+    print(vp.interpret_pronunciation(vp.expand(string, my_dict)))
     if state.flag:
         introduce_name_1()
         state.current_node = Name_1
@@ -31,22 +44,26 @@ def introduce_name(state):
 
 
 def introduce_name_1():
-    print("You can also call me Kitty.")
+    string = "You can also call me {nickname}."
+    print(vp.interpret_display(vp.expand(string, my_dict)))
 
 
 def introduce_age(state):
-    my_age = 6
-    print ("I am %s-year old." % my_age)
-    state.user_age = raw_input("How old are you?\n")
+    string = "I am {age} years old."
+    print(vp.interpret_display(vp.expand(string, my_dict)))
+    state.user_age = input("How old are you?\n")
+    """
     if int(state.user_age) > my_age:
         state.flag = True
     else:
         state.flag = False
+    """
     return state
 
 
 def introduce_school(state):
-    print("I'm now studying at the Little Harbor Elementary School.")
+    string = "I'm now studying at {school}."
+    print(vp.interpret_display(vp.expand(string, my_dict)))
     return state
 
 
@@ -67,9 +84,9 @@ def run_state(state):
 def next_state(state):
     while(state.running):
         for i in range(len(state.current_node.options)):
-            print str(i + 1) + '. ' + state.current_node.options[i]
+            print(str(i + 1) + '. ' + state.current_node.options[i])
 
-        user_answer = raw_input("What next? Please choose a number.\n")
+        user_answer = input("What next? Please choose a number.\n")
         is_valid = False
         while not is_valid:
             try:
