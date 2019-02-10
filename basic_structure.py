@@ -6,6 +6,7 @@ my_dict = {
     "age": "18",
     "greeting": "How are you?",
     "school": "the Extremely Excellent University",
+    "bye": "See you!"
 }
 
 
@@ -68,7 +69,8 @@ def introduce_school(state):
 
 
 def bye(state):
-    print("See you!")
+    string = "{bye}"
+    print((vp.interpret_display(vp.expand(string, my_dict))))
     state.running = False
     return state
 
